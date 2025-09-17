@@ -20,7 +20,8 @@ CREATE TABLE patients (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-#### email is marked as UNIQUE to prevent duplicate accounts.
+```
+ email is marked as UNIQUE to prevent duplicate accounts.
 
 
 ### 2. `doctors` Table  
@@ -35,9 +36,9 @@ CREATE TABLE doctors (
   available_hours TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+```
 
-
-#### available_hours can be parsed as JSON or comma-separated values for flexibility.
+available_hours can be parsed as JSON or comma-separated values for flexibility.
 
 ### 3. `appointments` Table
 Links patients and doctors with scheduled time slots.
@@ -53,8 +54,9 @@ CREATE TABLE appointments (
   FOREIGN KEY (patient_id) REFERENCES patients(id),
   FOREIGN KEY (doctor_id) REFERENCES doctors(id)
 );
+```
 
-#### Foreign keys enforce referential integrity between patients and doctors.
+Foreign keys enforce referential integrity between patients and doctors.
 
 ### 4. `admins` Table
 Stores system administrator accounts.
@@ -68,8 +70,8 @@ CREATE TABLE admins (
   role ENUM('SuperAdmin', 'Manager') DEFAULT 'Manager',
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-#### Passwords are stored as hashes for security. Roles allow for permission-based access.
+```
+Passwords are stored as hashes for security. Roles allow for permission-based access.
 
 ## MongoDB Document Schema
 ### 1. `prescriptions` Collection
@@ -101,17 +103,17 @@ Stores medical prescriptions linked to appointments.
   "notes": "Patient should hydrate and rest.",
   "issued_at": "2025-05-22T09:00:00Z"
 }
-
-#### Nested objects for patient and doctor allow quick access without additional joins.
-#### medications is an array to support multiple prescriptions per visit.
-#### appointmentId links this document back to the relational system.
+```
+Nested objects for patient and doctor allow quick access without additional joins.
+medications is an array to support multiple prescriptions per visit.
+appointmentId links this document back to the relational system.
 
 ## Justification
-###MySQL is ideal for structured, transactional data like users and appointments.
+ MySQL is ideal for structured, transactional data like users and appointments.
 
-###MongoDB supports flexible, nested data like prescriptions, which vary in length and structure.
+ MongoDB supports flexible, nested data like prescriptions, which vary in length and structure.
 
-###This hybrid approach ensures scalability, performance, and clarity in data modeling.
+ This hybrid approach ensures scalability, performance, and clarity in data modeling.
 
 
 
@@ -125,4 +127,5 @@ To commit this file to  GitHub repository:
 git add schema-design.md
 git commit -m "Add database schema design for MySQL and MongoDB"
 git push origin main
+```
 
