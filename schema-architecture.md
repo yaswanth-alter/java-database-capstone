@@ -1,25 +1,54 @@
-Sección 1: Resumen de la arquitectura
+# System Architecture - Hospital CMS
 
-Esta aplicación de Spring Boot utiliza tanto controladores MVC como REST. Se utilizan plantillas de Thymeleaf para los paneles de administración y de doctor, mientras que las API REST sirven a todos los demás módulos. La aplicación interactúa con dos bases de datos: MySQL (para datos de pacientes, doctores, citas y administración) y MongoDB (para recetas). Todos los controladores dirigen las solicitudes a través de una capa de servicio común, que a su vez delega en los repositorios apropiados. MySQL utiliza entidades JPA mientras que MongoDB utiliza modelos de documentos.
+This document outlines the technical architecture of the Hospital CMS application, built with Spring Boot. It integrates both MVC and REST controllers, relational and document-based databases, and a modular service-oriented structure.
 
-Sección 2: Flujo numerado de datos y control
+---
 
-1. Los usuarios pueden acceder a la aplicación a través de: Tableros web basados en Thymeleaf como AdminDashboard y DoctorDashboard. Clientes de API REST ( Appointments, PatientDashboard y PatientRecord) interactúan con el backend a través de HTTP y reciben respuestas en JSON.
+## Section 1: Architecture Overview
 
-2. Cuando un usuario interactúa con la aplicación  la solicitud se dirige a  Controladores de Thymeleaf en el backend según la ruta de la URL y el método HTTP. Estas devuelven plantillas .html que se llenarán con datos dinámicos y se renderizarán en el navegador.
-   Las solicitudes de los consumidores de API son manejadas por Controladores REST que devuelven respuestas en formato JSON.
+The application is developed using **Spring Boot**, combining:
 
+- **MVC Controllers**: Used to render dynamic views with **Thymeleaf**, primarily for the Admin and Doctor dashboards.
+- **REST Controllers**: Expose endpoints for modules such as appointments, patient records, and prescriptions, returning data in **JSON** format.
 
-3. A traves de servicios se coordina los flujos de trabajo entre las entidades 
+### Databases
+- **MySQL**: Stores structured relational data such as patients, doctors, appointments, and administrative users. Accessed via **Spring Data JPA** using `@Entity`-annotated classes.
+- **MongoDB**: Stores flexible document-based data such as prescriptions. Accessed via **Spring Data MongoDB** using `@Document`-annotated models.
 
+### Layered Structure
+- **Controllers** → **Services** → **Repositories** → **Databases**
+- The service layer centralizes business logic and coordinates operations between controllers and repositories.
 
-4. Los servicio se comunican con los Repositorios para el acceso a datos. El Repositorio MySQL, que utilizan Spring Data JPA para gestionar datos relacionales estructurados como pacientes, doctores, citas y registros administrativos y el Repositorio MongoDB, que utiliza Spring Data MongoDB para gestionar registros basados en documentos como recetas.
+---
 
+## Section 2: Data and Control Flow
 
-5. Cada uno de los repositorio se conectan directamente con el motor de base de datos.
+### 1. **User Interaction**
+Users access the system through:
 
-6. Cuando se recuperan los datos de la base de datos, se mapean en clases de modelo de Java con las que la aplicación puede trabajar. En el caso de MySQL, los datos se convierten en entidades JPA, que representan filas en tablas relacionales y están anotadas con @Entity.
-Para MongoDB, los datos se cargan en objetos de documento, típicamente anotados con @Document, que se mapean a estructuras BSON/JSON en colecciones.
+- **Thymeleaf-based web dashboards**: `AdminDashboard`, `DoctorDashboard`
+- **REST API clients**: `Appointments`, `PatientDashboard`, `PatientRecord`
 
+### 2. **Request Handling**
+- Web requests are routed to **MVC controllers**, which return `.html` templates populated with dynamic data and rendered in the browser.
+- API requests are handled by **REST controllers**, which return structured **JSON** responses.
 
-7. Finalmente, los modelos vinculados envian respuestas, en flujos MVC, los modelos se pasan del controlador a las plantillas de Thymeleaf, donde se renderizan como HTML dinámico para el navegador. En flujos REST, los mismos modelos (o DTOs transformados) se serializan en JSON y se envían de vuelta al cliente como parte de una respuesta HTTP.
+### 3. **Business Logic**
+- **Service classes** encapsulate business rules, validations, and workflow coordination.
+- Services invoke **repositories** to interact with persistent data.
+
+### 4. **Data Persistence**
+- **MySQL Repository**: Manages relational entities such as patients, doctors, appointments, and admin records.
+- **MongoDB Repository**: Manages document-based entities such as prescriptions.
+
+Each repository connects directly to its respective database engine.
+
+### 5. **Data Mapping**
+- Retrieved data is mapped to **Java model classes**:
+  - In MySQL: JPA entities (`@Entity`) representing rows in relational tables.
+  - In MongoDB: Document objects (`@Document`) mapped to BSON/JSON structures in collections.
+
+### 6. **Client Response**
+- In MVC flows: Models are passed from controllers to Thymeleaf templates and rendered as dynamic HTML.
+- In REST flows: Models (or transformed DTOs) are serialized into JSON and returned to the client via HTTP responses.
+
