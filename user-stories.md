@@ -4,7 +4,7 @@ This document outlines the key user stories for the SmartCare Solutions clinic m
 
 ---
 
-## Administrator
+##  Admin User Stories
 
 **Goal**: Manage users, specialties, and system-wide configurations.
 
@@ -17,7 +17,7 @@ This document outlines the key user stories for the SmartCare Solutions clinic m
 
 ---
 
-##  Doctor
+##  Doctor User Stories
 
 **Goal**: Manage availability, appointments, and prescriptions.
 
@@ -30,7 +30,7 @@ This document outlines the key user stories for the SmartCare Solutions clinic m
 
 ---
 
-##  Patient
+##  Patient User Stories
 
 **Goal**: Book appointments, view history, and follow treatments.
 
