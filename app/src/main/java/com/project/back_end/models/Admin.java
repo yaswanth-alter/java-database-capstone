@@ -1,6 +1,6 @@
-package com.project.back_end.models;
+//package com.project.back_end.models;
 
-public class Admin {
+//public class Admin {
 
 // @Entity annotation:
 //    - Marks the class as a JPA entity, which means it represents a table in the database.
@@ -34,4 +34,40 @@ public class Admin {
 // 5. Getters and Setters:
 //    - Standard getter and setter methods are provided for accessing and modifying the fields.
 
+//}
+
+package com.project.back_end.models;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@Entity
+public class Admin {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @JsonProperty("username")
+    private String username;
+
+    @NotNull
+    @JsonProperty("password")
+    private String passwordHash;
+
+    @Email
+    @NotNull
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.MANAGER;
+
+    public enum Role {
+        SUPERADMIN, MANAGER
+    }
+
+    // Getters and setters
 }
+
