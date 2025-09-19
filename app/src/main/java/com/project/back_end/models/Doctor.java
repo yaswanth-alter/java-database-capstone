@@ -1,6 +1,6 @@
-package com.project.back_end.models;
+//package com.project.back_end.models;
 
-public class Doctor {
+//public class Doctor {
 
 // @Entity annotation:
 //    - Marks the class as a JPA entity, meaning it represents a table in the database.
@@ -61,5 +61,34 @@ public class Doctor {
 // 8. Getters and Setters:
 //    - Standard getter and setter methods are provided for all fields: id, name, specialty, email, password, phone, and availableTimes.
 
+//}
+
+package com.project.back_end.models;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
+@Entity
+public class Doctor {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    private String fullName;
+
+    @Email
+    @NotNull
+    private String email;
+
+    @NotNull
+    private String specialty;
+
+    @Column(columnDefinition = "TEXT")
+    private String availableHours; // JSON or CSV format
+
+    // Getters and setters
 }
+
 
