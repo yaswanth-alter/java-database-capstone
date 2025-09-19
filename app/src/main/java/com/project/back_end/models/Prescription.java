@@ -59,8 +59,6 @@ package com.project.back_end.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.*;
-import java.time.Instant;
-import java.util.List;
 
 @Document(collection = "prescriptions")
 public class Prescription {
@@ -69,26 +67,80 @@ public class Prescription {
     private String id;
 
     @NotNull
-    private Long appointmentId;
-
-    @NotNull
+    @Size(min = 3, max = 100)
     private String patientName;
 
     @NotNull
-    private List<Medication> medications;
+    private Long appointmentId;
 
-    private String notes;
+    @NotNull
+    @Size(min = 3, max = 100)
+    private String medication;
 
-    private Instant issuedAt = Instant.now();
+    @NotNull
+    @Size(min = 3, max = 20)
+    private String dosage;
 
-    public static class Medication {
-        private String name;
-        private String dosage;
-        private String duration;
+    @Size(max = 200)
+    private String doctorNotes;
 
-        // Getters and setters
+    // ✅ Constructor for essential fields
+    public Prescription(String patientName, Long appointmentId, String medication, String dosage) {
+        this.patientName = patientName;
+        this.appointmentId = appointmentId;
+        this.medication = medication;
+        this.dosage = dosage;
     }
 
     // Getters and setters
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPatientName() {
+        return patientName;
+    }
+
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
+
+    public Long getAppointmentId() {
+        return appointmentId;
+    }
+
+    public void setAppointmentId(Long appointmentId) {
+        this.appointmentId = appointmentId;
+    }
+
+    public String getMedication() {
+        return medication;
+    }
+
+    public void setMedication(String medication) {
+        this.medication = medication;
+    }
+
+    public String getDosage() {
+        return dosage;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
+    }
+
+    public String getDoctorNotes() {
+        return doctorNotes;
+    }
+
+    public void setDoctorNotes(String doctorNotes) {
+        this.doctorNotes = doctorNotes;
+    }
 }
+
 
