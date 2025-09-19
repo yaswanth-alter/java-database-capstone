@@ -1,6 +1,6 @@
-package com.project.back_end.models;
+//package com.project.back_end.models;
 
-public class Prescription {
+//public class Prescription {
 
   // @Document annotation:
 //    - Marks the class as a MongoDB document (a collection in MongoDB).
@@ -53,4 +53,42 @@ public class Prescription {
 //    - These methods allow access and modification of the fields of the Prescription class.
 
 
+//}
+package com.project.back_end.models;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import jakarta.validation.constraints.*;
+import java.time.Instant;
+import java.util.List;
+
+@Document(collection = "prescriptions")
+public class Prescription {
+
+    @Id
+    private String id;
+
+    @NotNull
+    private Long appointmentId;
+
+    @NotNull
+    private String patientName;
+
+    @NotNull
+    private List<Medication> medications;
+
+    private String notes;
+
+    private Instant issuedAt = Instant.now();
+
+    public static class Medication {
+        private String name;
+        private String dosage;
+        private String duration;
+
+        // Getters and setters
+    }
+
+    // Getters and setters
 }
+
