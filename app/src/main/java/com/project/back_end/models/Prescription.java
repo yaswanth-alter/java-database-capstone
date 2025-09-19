@@ -58,89 +58,107 @@ package com.project.back_end.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import jakarta.validation.constraints.*;
+import java.time.Instant;
+import java.util.List;
 
 @Document(collection = "prescriptions")
 public class Prescription {
 
     @Id
-    private String id;
+    private String prescriptionId;
 
     @NotNull
-    @Size(min = 3, max = 100)
-    private String patientName;
+    private String patientId;
 
     @NotNull
-    private Long appointmentId;
+    private String doctorId;
 
     @NotNull
-    @Size(min = 3, max = 100)
-    private String medication;
+    @Size(min = 1)
+    private List<Medication> medications;
 
-    @NotNull
-    @Size(min = 3, max = 20)
-    private String dosage;
+    private List<String> tags;
+
+    private Metadata metadata;
 
     @Size(max = 200)
-    private String doctorNotes;
+    private String notes;
 
-    // ✅ Constructor for essential fields
-    public Prescription(String patientName, Long appointmentId, String medication, String dosage) {
-        this.patientName = patientName;
-        this.appointmentId = appointmentId;
-        this.medication = medication;
-        this.dosage = dosage;
+    // Embedded class for medication details
+    public static class Medication {
+        @NotNull
+        @Size(min = 3, max = 100)
+        private String name;
+
+        @NotNull
+        @Size(min = 1, max = 20)
+        private String dosage;
+
+        @NotNull
+        @Size(min = 3, max = 50)
+        private String frequency;
+
+        @NotNull
+        @Size(min = 3, max = 50)
+        private String duration;
+
+        // Getters and setters
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+
+        public String getDosage() { return dosage; }
+        public void setDosage(String dosage) { this.dosage = dosage; }
+
+        public String getFrequency() { return frequency; }
+        public void setFrequency(String frequency) { this.frequency = frequency; }
+
+        public String getDuration() { return duration; }
+        public void setDuration(String duration) { this.duration = duration; }
     }
 
-    // Getters and setters
+    // Embedded class for metadata
+    public static class Metadata {
+        private Instant createdAt;
+        private Instant updatedAt;
 
-    public String getId() {
-        return id;
+        @Pattern(regexp = "active|inactive|archived")
+        private String status;
+
+        // Getters and setters
+        public Instant getCreatedAt() { return createdAt; }
+        public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+
+        public Instant getUpdatedAt() { return updatedAt; }
+        public void setUpdatedAt(Instant updatedAt) { this.updatedAt = updatedAt; }
+
+        public String getStatus() { return status; }
+        public void setStatus(String status) { this.status = status; }
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    // Getters and setters for Prescription
 
-    public String getPatientName() {
-        return patientName;
-    }
+    public String getPrescriptionId() { return prescriptionId; }
+    public void setPrescriptionId(String prescriptionId) { this.prescriptionId = prescriptionId; }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
-    }
+    public String getPatientId() { return patientId; }
+    public void setPatientId(String patientId) { this.patientId = patientId; }
 
-    public Long getAppointmentId() {
-        return appointmentId;
-    }
+    public String getDoctorId() { return doctorId; }
+    public void setDoctorId(String doctorId) { this.doctorId = doctorId; }
 
-    public void setAppointmentId(Long appointmentId) {
-        this.appointmentId = appointmentId;
-    }
+    public List<Medication> getMedications() { return medications; }
+    public void setMedications(List<Medication> medications) { this.medications = medications; }
 
-    public String getMedication() {
-        return medication;
-    }
+    public List<String> getTags() { return tags; }
+    public void setTags(List<String> tags) { this.tags = tags; }
 
-    public void setMedication(String medication) {
-        this.medication = medication;
-    }
+    public Metadata getMetadata() { return metadata; }
+    public void setMetadata(Metadata metadata) { this.metadata = metadata; }
 
-    public String getDosage() {
-        return dosage;
-    }
-
-    public void setDosage(String dosage) {
-        this.dosage = dosage;
-    }
-
-    public String getDoctorNotes() {
-        return doctorNotes;
-    }
-
-    public void setDoctorNotes(String doctorNotes) {
-        this.doctorNotes = doctorNotes;
-    }
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 }
 
 
