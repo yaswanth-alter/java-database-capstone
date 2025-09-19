@@ -1,6 +1,6 @@
-package com.project.back_end.models;
+//package com.project.back_end.models;
 
-public class Appointment {
+//public class Appointment {
 
   // @Entity annotation:
 //    - Marks the class as a JPA entity, meaning it represents a table in the database.
@@ -68,5 +68,48 @@ public class Appointment {
 // 10. Getters and Setters:
 //    - Standard getter and setter methods are provided for accessing and modifying the fields: id, doctor, patient, appointmentTime, status, etc.
 
+//}
+
+package com.project.back_end.models;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+@Entity
+public class Appointment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+
+    @NotNull
+    private LocalDate appointmentDate;
+
+    @NotNull
+    private LocalTime timeSlot;
+
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.SCHEDULED;
+
+    public enum Status {
+        SCHEDULED, COMPLETED, CANCELLED
+    }
+
+    public LocalTime getEndTime() {
+        return timeSlot.plusMinutes(30); // Example duration
+    }
+
+    // Getters and setters
 }
+
 
