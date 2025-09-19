@@ -12,12 +12,11 @@ Stores patient information.
 ```sql
 CREATE TABLE patients (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  full_name VARCHAR(100) NOT NULL,
+  name VARCHAR(100) NOT NULL,
   email VARCHAR(100) UNIQUE NOT NULL,
-  phone VARCHAR(20),
-  birth_date DATE,
-  gender ENUM('M', 'F', 'Other'),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  password VARCHAR(255) NOT NULL,
+  phone VARCHAR(10) NOT NULL,
+  address VARCHAR(255) NOT NULL
 );
 
 ```
@@ -30,11 +29,11 @@ Stores doctors information.
 ```sql
 CREATE TABLE doctors (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  full_name VARCHAR(100) NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL,
+  name VARCHAR(100) NOT NULL,
   specialty VARCHAR(50) NOT NULL,
-  available_hours TEXT,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  phone VARCHAR(10) NOT NULL
 );
 ```
 
@@ -46,13 +45,12 @@ Links patients and doctors with scheduled time slots.
 ```sql
 CREATE TABLE appointments (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  patient_id INT NOT NULL,
   doctor_id INT NOT NULL,
-  appointment_date DATE NOT NULL,
-  time_slot VARCHAR(20) NOT NULL,
-  status ENUM('Scheduled', 'Completed', 'Cancelled') DEFAULT 'Scheduled',
-  FOREIGN KEY (patient_id) REFERENCES patients(id),
-  FOREIGN KEY (doctor_id) REFERENCES doctors(id)
+  patient_id INT NOT NULL,
+  appointment_time DATETIME NOT NULL,
+  status INT NOT NULL,
+  FOREIGN KEY (doctor_id) REFERENCES doctors(id),
+  FOREIGN KEY (patient_id) REFERENCES patients(id)
 );
 ```
 
@@ -64,11 +62,8 @@ Stores system administrator accounts.
 ```sql
 CREATE TABLE admins (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  username VARCHAR(50) UNIQUE NOT NULL,
-  password_hash VARCHAR(255) NOT NULL,
-  email VARCHAR(100) UNIQUE NOT NULL,
-  role ENUM('SuperAdmin', 'Manager') DEFAULT 'Manager',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  username VARCHAR(50) NOT NULL,
+  password VARCHAR(255) NOT NULL
 );
 ```
 Passwords are stored as hashes for security. Roles allow for permission-based access.
@@ -79,29 +74,28 @@ Stores medical prescriptions linked to appointments.
 
 ```Json
 {
-  "appointmentId": 131,
-  "patient": {
-    "id": 26,
-    "name": "John Smith"
-  },
-  "doctor": {
-    "id": 12,
-    "name": "Dr. Emily Adams"
-  },
+ "prescriptionId": "12345",
+  "patientId": "67890",
+  "doctorId": "54321",
   "medications": [
-    {
-      "name": "Vitamin C tablets",
-      "dosage": "Twice a day",
-      "duration": "7 days"
-    },
-    {
-      "name": "Ibuprofen",
-      "dosage": "Once every 8 hours",
-      "duration": "5 days"
-    }
+   { "name": "Amoxicillin",
+     "dosage": "500mg",
+     "frequency": "Every 8 hours",
+     "duration": "7 days"
+   },
+   { "name": "Ibuprofen",
+     "dosage": "200mg",
+     "frequency": "Every 6 hours",
+     "duration": "3 days"
+   }
   ],
-  "notes": "Patient should hydrate and rest.",
-  "issued_at": "2025-05-22T09:00:00Z"
+ "tags": ["antibiotic", "pain relief"],
+ "metadata": {
+  "createdAt": "2023-10-01T12:00:00Z",
+  "updatedAt": "2023-10-02T12:00:00Z",
+  "status":    "active"
+  },
+ "notes": "Patient should take medication with food."
 }
 ```
 Nested objects for patient and doctor allow quick access without additional joins.
