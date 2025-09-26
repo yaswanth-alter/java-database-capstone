@@ -1,3 +1,103 @@
+
+/* this is the style sheet file for index.html */
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base HTML & Body */
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+}
+
+/* Layout Wrapper */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 960px;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Heading */
+h2 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 50px;
+  color: #003e3e;
+  font-family: 'Alegreya', 'Roboto', sans-serif;
+  text-align: center;
+}
+
+/* Main Section */
+.main-content {
+  flex-grow: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-image: url("../img/background.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Buttons */
+button {
+  background-color: #015c5d;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #A62B1F;
+}
+
+/* Dashboard Buttons */
+.dashboard-btn {
+  background-color: #015c5d;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  width: 200px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-btn:hover {
+  background-color: #003e3e;
+}
+
+/* Modal */
+.modal {
+  position: fixed
 /* this is the style sheet file for index.htlm  */
 
 /* 
