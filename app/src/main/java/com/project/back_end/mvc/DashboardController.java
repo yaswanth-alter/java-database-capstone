@@ -1,6 +1,50 @@
 package com.project.back_end.mvc;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.view.RedirectView;
+
+import com.project.back_end.service.Service;
+
+import java.util.Map;
+
+@Controller
 public class DashboardController {
+
+    // 2. Autowire the Shared Service
+    @Autowired
+    private Service service;
+
+    // 3. Define the adminDashboard Method
+    @GetMapping("/adminDashboard/{token}")
+    public Object adminDashboard(@PathVariable String token) {
+        Map<String, Object> validationResult = service.validateToken(token, "admin");
+
+        if (validationResult.isEmpty()) {
+            return "admin/adminDashboard"; // Thymeleaf will resolve to adminDashboard.html
+        } else {
+            return new RedirectView("/");
+        }
+    }
+
+    // 4. Define the doctorDashboard Method
+    @GetMapping("/doctorDashboard/{token}")
+    public Object doctorDashboard(@PathVariable String token) {
+        Map<String, Object> validationResult = service.validateToken(token, "doctor");
+
+        if (validationResult.isEmpty()) {
+            return "doctor/doctorDashboard"; // Thymeleaf will resolve to doctorDashboard.html
+        } else {
+            return new RedirectView("/");
+        }
+    }
+}
+
+//package com.project.back_end.mvc;
+
+//public class DashboardController {
 
 // 1. Set Up the MVC Controller Class:
 //    - Annotate the class with `@Controller` to indicate that it serves as an MVC controller returning view names (not JSON).
